@@ -2,5 +2,127 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "throttling": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/throttling",
+      "sourceRoot": "projects/throttling/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/throttling",
+            "index": "projects/throttling/src/index.html",
+            "main": "projects/throttling/src/main.ts",
+            "polyfills": "projects/throttling/src/polyfills.ts",
+            "tsConfig": "projects/throttling/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/throttling/src/favicon.ico",
+              "projects/throttling/src/assets"
+            ],
+            "styles": [
+              "projects/throttling/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/throttling/src/environments/environment.ts",
+                  "with": "projects/throttling/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "throttling:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "throttling:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "throttling:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/throttling/src/test.ts",
+            "polyfills": "projects/throttling/src/polyfills.ts",
+            "tsConfig": "projects/throttling/tsconfig.spec.json",
+            "karmaConfig": "projects/throttling/karma.conf.js",
+            "assets": [
+              "projects/throttling/src/favicon.ico",
+              "projects/throttling/src/assets"
+            ],
+            "styles": [
+              "projects/throttling/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/throttling/tsconfig.app.json",
+              "projects/throttling/tsconfig.spec.json",
+              "projects/throttling/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/throttling/e2e/protractor.conf.js",
+            "devServerTarget": "throttling:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "throttling:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "throttling"
 }

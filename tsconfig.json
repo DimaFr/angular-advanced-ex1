@@ -6,5 +6,12 @@
 */
 {
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./projects/throttling/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/throttling/tsconfig.spec.json"
+    }
+]
 }
