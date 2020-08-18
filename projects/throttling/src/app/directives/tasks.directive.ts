@@ -1,6 +1,6 @@
 import { Directive, ElementRef, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { BehaviorSubject, fromEvent } from 'rxjs';
-import { debounceTime, filter, distinctUntilChanged } from 'rxjs/operators'
+import { BehaviorSubject, fromEvent, Subject } from 'rxjs';
+import { debounceTime, filter, distinctUntilChanged, throttleTime } from 'rxjs/operators'
 
 @Directive({ selector: '[app-tasks-search]' })
 export class TasksSearchDir implements OnDestroy {
@@ -11,23 +11,24 @@ export class TasksSearchDir implements OnDestroy {
       
     }
 
-    private searchStr: BehaviorSubject<string> = new BehaviorSubject('');
+    private searchStr: Subject<string> = new Subject();
+    //private searchStr: BehaviorSubject<string> = new BehaviorSubject(''); // any advantage ?
 
     private searchStr$ = this.searchStr.asObservable()
         .pipe(
-            //throttleTime(1000)//does not emit events that were in that time (1sec)
+            //throttleTime(1000),//does not emit events that were in that time (1sec)
             debounceTime(1000),//waits 1 sec then emits last event
             distinctUntilChanged(),//filters out letter then backspace 
             //may be filter out empty strings and add rule of ** to return all results
-           
+            //filter(res =>/\s$/.test(res)==false)//filter out strings with spaces at the end
         )
         .subscribe(
             res => {
-
                 this.searchTxtEvent.emit(res);
             });
 
     private keyUp$ = fromEvent(this.el.nativeElement, 'keyup')
+
         .subscribe(
             (res: any) => {
             this.searchStr.next(this.el.nativeElement.value)

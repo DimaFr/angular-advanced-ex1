@@ -16,11 +16,12 @@ export class AppComponent {
   }
 
   onSearchTextEvent(e) {
-    console.log('recieved');
     console.log(e);
+    
     this.taskService.getTasks(e)
     .subscribe(
-      (res:any) => this.tasks = res
+      (res:any) => this.tasks = res,
+      (err:Error) => this.tasks = [err.message]
     )      
 
   }
