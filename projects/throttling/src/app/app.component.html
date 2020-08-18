@@ -1,7 +1,11 @@
 <h2>{{title.toUpperCase()}}</h2>
-<input type="text">
+
+
+<input app-tasks-search (searchTxtEvent)="onSearchTextEvent($event)" type="text">
+
+
 <ul class="tasks">
     <li *ngFor="let task of tasks">
-        {{JSON.stringify(task)}}
+        {{task | json}}
     </li>
 </ul>

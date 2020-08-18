@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TasksSearchDir } from './directives/tasks.directive';
+import { TasksService } from './services/tasks.service';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +8,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'throttling';
-  tasks:any[] =[];
+  title = 'throttling?';
+  tasks: any[] = [];
+
+  constructor(private taskService: TasksService) {
+
+  }
+
+  onSearchTextEvent(e) {
+    console.log('recieved');
+    console.log(e);
+    this.taskService.getTasks(e)
+    .subscribe(
+      (res:any) => this.tasks = res
+    )      
+
+  }
+
 }

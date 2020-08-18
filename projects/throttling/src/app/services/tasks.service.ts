@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { catchError } from 'rxjs/operators'
+import { throwError, Observable } from 'rxjs';
 
-const TASKS_URL: string = "https://nztodo.herokuapp.com/api/task"
+const TASKS_URL: string = "https://nztodo.herokuapp.com/api/task/"
 const PARAMS_PREFIX: any = { 'format': 'json' }
 
 @Injectable({ providedIn: 'root' })
@@ -9,11 +11,20 @@ const PARAMS_PREFIX: any = { 'format': 'json' }
 export class TasksService {
     constructor(private httpClient: HttpClient) { }
 
-    public getTasks(searchStr: string) {
+    private  params = new HttpParams({fromObject:PARAMS_PREFIX});
+
+    public getTasks(searchStr: string):Observable<any> {
         let params: HttpParams = this.createSearchParams(searchStr);
+        return this.httpClient.get(TASKS_URL,{params}).pipe(
+            catchError(
+                (err:Error)=>throwError(err))
+        )
     }
-    createSearchParams(searchStr: string): HttpParams {
-        throw new Error("Method not implemented.");
+
+    private createSearchParams(searchStr: string): HttpParams {
+        let params = this.params;
+        params =  params.append('search',searchStr);
+        return params;
     }
 
 
