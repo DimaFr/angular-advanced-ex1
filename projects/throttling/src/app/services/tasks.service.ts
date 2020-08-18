@@ -15,10 +15,11 @@ export class TasksService {
 
     public getTasks(searchStr: string):Observable<any> {
         let params: HttpParams = this.createSearchParams(searchStr);
-        return this.httpClient.get(TASKS_URL,{params}).pipe(
-            catchError(
-                (err:Error)=>throwError(err))
-        )
+        return this.httpClient.get(TASKS_URL,{params})
+        // .pipe( //mistake!!!!: will catch in component
+        //     catchError(
+        //         (err:Error)=>throwError(err))
+        // )
     }
 
     private createSearchParams(searchStr: string): HttpParams {

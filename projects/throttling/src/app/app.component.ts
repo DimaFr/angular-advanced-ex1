@@ -21,7 +21,7 @@ export class AppComponent {
     this.taskService.getTasks(e)
     .subscribe(
       (res:any) => this.tasks = res,
-      (err:Error) => this.tasks = [err.message]
+      (err:Error) => this.tasks = [{id:err.message}]
     )      
 
   }
